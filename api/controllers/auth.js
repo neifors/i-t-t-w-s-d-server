@@ -61,6 +61,7 @@ async function login(req, res) {
       //   };
       //   jwt.sign(payload, process.env.SECRET, { expiresIn: 1000 }, sendToken);
     } else {
+      console.log("hi");
       throw new Error("User could not be authenticated");
     }
   } catch (err) {

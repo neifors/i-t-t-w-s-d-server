@@ -6,7 +6,9 @@ const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
 
 const init = async () => {
-  let client = await MongoClient.connect(connectionUrl);
+  //let client = await MongoClient.connect(connectionUrl);
+  const client = new MongoClient(connectionUrl);
+  await client.connect()
   console.log(`Connected to database ${dbName}.`);
   return client.db(dbName);
 };

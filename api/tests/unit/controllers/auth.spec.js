@@ -19,6 +19,9 @@ const mockStatus = jest.fn((code) => ({
 }));
 const mockRes = { status: mockStatus };
 
+// ----------------------------------------------------------------------------------------
+// Tests won't pass unless .send method is removed from error responses
+
 describe("auth controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();

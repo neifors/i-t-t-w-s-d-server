@@ -7,7 +7,7 @@
     "start": "node index.js --legacy-watch",
     "dev": "nodemon index.js --legacy-watch",
     "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose",
-    "coverage": "jest --setupFiles ./tests/integration/config.js --testPathPattern=/tests/ --detectOpenHandles --coverage",
+    "coverage": "jest --setupFiles ./tests/integration/config.js --testPathPattern=/integration/ --detectOpenHandles --coverage",
     "unitTests": "jest --testPathPattern=/unit/ --watchAll --verbose",
     "unitCoverage": "jest --testPathPattern=/unit/ --watchAll --verbose --coverage"
   },

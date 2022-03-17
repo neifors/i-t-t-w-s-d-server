@@ -21,13 +21,12 @@ describe("successful endpoints", () => {
 
   afterAll(async () => {
     console.log("Stopping test server");
-    await api.close((err) => {});
+    // await api.close((err) => {});
   });
 
   describe("user", () => {
     describe("authenticated GET /", () => {
       test("it should return all users", async () => {
-        console.log(token);
         const res = await request(api)
           .get("/users")
           .set("authorization", token)
@@ -63,6 +62,48 @@ describe("successful endpoints", () => {
           .get("/users/jalexxx")
           .set("authorization", "Bearer VERY.GOOD.REAL.TOKEN");
         expect(res.statusCode).toEqual(403);
+      });
+    });
+
+    describe("authenticated PATCH /:username", () => {
+      test("it should return 200 if correct password provided", async () => {
+        console.log("-- START --");
+        const res = await request(api)
+          .patch("/users/nplatton")
+          .send({
+            password: "nplatton",
+            newPassword: "smelly",
+          })
+          .set("Accept", "application/json")
+          .set("authorization", token);
+        expect(res.statusCode).toEqual(200);
+      });
+
+      test("it should return 500 if wrong password sent", async () => {
+        const res = await request(api)
+          .patch("/users/nplatton")
+          .send({
+            password: "smelly",
+            newPassword: "smelly",
+          })
+          .set("Accept", "application/json")
+          .set("authorization", token);
+        expect(res.statusCode).toEqual(500);
+      });
+    });
+
+    describe("unauthenticated PATCH /:username", () => {
+      test("it should return 403 error on invalid token", async () => {
+        const res = await request(api)
+          .patch("/users/nplatton")
+          .send({
+            password: "nplatton",
+            newPassword: "smelly",
+          })
+          .set("Accept", "application/json")
+          .set("authorization", "Bearer VERY.GOOD.REAL.TOKEN");
+        expect(res.statusCode).toEqual(403);
+        console.log("-- END --");
       });
     });
   });
@@ -224,7 +265,6 @@ describe("successful endpoints", () => {
         const newRes = await request(api)
           .get("/scores/username/jalexxx/cat/movies")
           .set("authorization", token);
-        console.log(newRes.body);
         expect(newRes.body.score).toBe(20);
       });
 
